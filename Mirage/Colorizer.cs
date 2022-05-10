@@ -1,6 +1,7 @@
 ﻿namespace Mirage;
 
 using System;
+using System.Globalization;
 using System.Text;
 
 internal static class Colorizer
@@ -171,6 +172,129 @@ internal static class Colorizer
         builder.Append($"[#FFAA00]{stars[1..3]}[/]")
             .Append($"[#FF5555]{stars[3..]}⚝[/]")
             .Append("[#AA0000]]][/]");
+
+        return builder.ToString();
+    }
+    #endregion
+
+    #region Winstreak
+    public static String ColorizeWinstreak(Int32 winstreak)
+    {
+        return winstreak switch
+        {
+            Int32 when winstreak <= 2 => $"[#AAAAAA]{winstreak}[/]",
+            Int32 when winstreak <= 5 => $"[#FFFFFF]{winstreak}[/]",
+            Int32 when winstreak <= 10 => $"[#F7FF33]{winstreak}[/]",
+            Int32 when winstreak <= 20 => $"[#55FFFF]{winstreak}[/]",
+            Int32 when winstreak <= 50 => $"[#800000]{winstreak}[/]",
+            Int32 when winstreak <= 100 => $"[#FFAEED]{winstreak}[/]",
+            _ => $"[#6100B8]{winstreak}[/]"
+        };
+    }
+    #endregion
+
+    #region Finals
+    public static String ColorizeFinalKills(Int32 finals)
+    {
+        return finals switch
+        {
+            Int32 when finals <= 1000 => $"[#AAAAAA]{finals}[/]",
+            Int32 when finals <= 2500 => $"[#FFFFFF]{finals}[/]",
+            Int32 when finals <= 5000 => $"[#F7FF33]{finals}[/]",
+            Int32 when finals <= 10_000 => $"[#55FFFF]{finals}[/]",
+            Int32 when finals <= 20_000 => $"[#800000]{finals}[/]",
+            Int32 when finals <= 50_000 => $"[#FFAEED]{finals}[/]",
+            Int32 when finals <= 99_999 => $"[#6100B8]{finals}[/]",
+            _ => ColorizeRainbowFinalKills(finals)
+        };
+    }
+
+    private static String ColorizeRainbowFinalKills(Int32 finals)
+    {
+        String representation = finals.ToString();
+
+        StringBuilder builder = new($"[#FF5555]{representation[0]}[/]");
+        builder.Append($"[#FFAA00]{representation[1]}[/]")
+            .Append($"[#FFFF55]{representation[2]}[/]")
+            .Append($"[#55FF55]{representation[3]}[/]")
+            .Append($"[#55FFFF]{representation[4]}[/]")
+            .Append($"[#AA00AA]{representation[5..]}[/]");
+
+        return builder.ToString();
+    }
+    #endregion
+
+    #region Wins
+    public static String ColorizeWins(Int32 wins)
+    {
+        return wins switch
+        {
+            Int32 when wins <= 250 => $"[#AAAAAA]{wins}[/]",
+            Int32 when wins <= 1000 => $"[#FFFFFF]{wins}[/]",
+            Int32 when wins <= 2500 => $"[#F7FF33]{wins}[/]",
+            Int32 when wins <= 5000 => $"[#55FFFF]{wins}[/]",
+            Int32 when wins <= 10_000 => $"[#800000]{wins}[/]",
+            Int32 when wins <= 20_000 => $"[#FFAEED]{wins}[/]",
+            _ => $"[#6100B8]{wins}[/]"
+        };
+    }
+    #endregion
+
+    #region FKDR
+    public static String ColorizeFKDR(Single fkdr)
+    {
+        String representation = fkdr.ToString("F2", CultureInfo.InvariantCulture);
+        return fkdr switch
+        {
+            Single when fkdr <= 1.0 => $"[#AAAAAA]{representation}[/]",
+            Single when fkdr <= 2.0 => $"[#FFFFFF]{representation}[/]",
+            Single when fkdr <= 3.0 => $"[#F7FF33]{representation}[/]",
+            Single when fkdr <= 5.0 => $"[#55FFFF]{representation}[/]",
+            Single when fkdr <= 10.0 => $"[#800000]{representation}[/]",
+            Single when fkdr <= 50.0 => $"[#FFAEED]{representation}[/]",
+            Single when fkdr < 100.0 => $"[#6100B8]{representation}[/]",
+            _ => ColorizeRainbowFKDR(representation)
+        };
+    }
+
+    public static String ColorizeRainbowFKDR(String fkdr)
+    {
+        StringBuilder builder = new($"[#FF5555]{fkdr[0]}[/]");
+        builder.Append($"[#FFAA00]{fkdr[1]}[/]")
+            .Append($"[#FFFF55]{fkdr[2]}[/]")
+            .Append($"[#55FF55]{fkdr[3]}[/]")
+            .Append($"[#55FFFF]{fkdr[4]}[/]")
+            .Append($"[#AA00AA]{fkdr[5..]}[/]");
+
+        return builder.ToString();
+    }
+    #endregion
+
+    #region WLR
+    public static String ColorizeWLR(Single wlr)
+    {
+        String representation = wlr.ToString("F2", CultureInfo.InvariantCulture);
+        return wlr switch
+        {
+            Single when wlr <= 0.5 => $"[#AAAAAA]{representation}[/]",
+            Single when wlr <= 1.0 => $"[#FFFFFF]{representation}[/]",
+            Single when wlr <= 3.0 => $"[#F7FF33]{representation}[/]",
+            Single when wlr <= 5.0 => $"[#55FFFF]{representation}[/]",
+            Single when wlr <= 10.0 => $"[#800000]{representation}[/]",
+            Single when wlr <= 50.0 => $"[#FFAEED]{representation}[/]",
+            Single when wlr < 100.0 => $"[#6100B8]{representation}[/]",
+            _ => ColorizeRainbowWLR(representation)
+        };
+    }
+
+    public static String ColorizeRainbowWLR(String wlr)
+    {
+        StringBuilder builder = new($"[#FF5555]{wlr[0]}[/]");
+        builder.Append($"[#FFAA00]{wlr[1]}[/]")
+            .Append($"[#FFFF55]{wlr[2]}[/]")
+            .Append($"[#55FF55]{wlr[3]}[/]")
+            .Append($"[#55FFFF]{wlr[4]}[/]")
+            .Append($"[#AA00AA]{wlr[5..]}[/]");
 
         return builder.ToString();
     }
